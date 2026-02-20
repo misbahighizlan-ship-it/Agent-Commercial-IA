@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-souk-red: #c1272d;
+  --color-souk-yellow: #ffcc00;
+  --color-souk-dark: #1a1a1a;
+
+  --color-maroon-50: #fef2f2;
+  --color-maroon-100: #fee2e2;
+  --color-maroon-200: #fecaca;
+  --color-maroon-300: #fca5a5;
+  --color-maroon-400: #f87171;
+  --color-maroon-500: #ef4444;
+  --color-maroon-600: #dc2626;
+  --color-maroon-700: #b91c1c;
+  --color-maroon-800: #991b1b;
+  --color-maroon-900: #7f1d1d;
+  --color-maroon-950: #450a0a;
+
+  --font-serif: "Merriweather", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+:root {
+  --souk-red: #c1272d;
+  --souk-yellow: #ffcc00;
+}
+
+body {
+  @apply bg-orange-50 text-gray-900 font-sans;
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.souk-gradient {
+  @apply bg-gradient-to-br from-souk-red to-maroon-800;
+}
+
+.btn-primary {
+  @apply px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg;
+}

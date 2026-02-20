@@ -1,0 +1,1282 @@
+﻿{
+    "updatedAt":  "2026-02-20T21:28:16.764Z",
+    "createdAt":  "2026-02-18T12:29:01.218Z",
+    "id":  "WyabXMHUZiURTwya",
+    "name":  "My workflow 12",
+    "description":  null,
+    "active":  true,
+    "isArchived":  false,
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "public":  true,
+                                         "initialMessages":  "Marhaba! 🌟 Je suis Hassan, votre agent commercial \ndu Souk Digital Marocain. Comment puis-je vous aider?",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.chatTrigger",
+                      "typeVersion":  1.4,
+                      "position":  [
+                                       -224,
+                                       -544
+                                   ],
+                      "id":  "9c9cd84b-a20b-441b-a51e-eb37800b9b34",
+                      "name":  "When chat message received",
+                      "webhookId":  "153f50a6-29bd-42e1-bd70-236bbb8f8bc2"
+                  },
+                  {
+                      "parameters":  {
+                                         "options":  {
+                                                         "systemMessage":  "You are a helpful assistantTu es Hassan, un agent commercial chaleureux du Souk Digital Marocain.\nTu parles la langue du client (français/anglais/arabe - détecte automatiquement).\n\nRÈGLES DE NÉGOCIATION:\n- Ne jamais vendre sous le min_price\n- Remise max: electronique 20%, vetements 35%, beaute 25%, accessoires 30%, maison 33%\n- Fais des contre-offres sympathiques si le client demande trop\n\nSois humain, chaleureux, utilise \"Bismillah\", \"Pour vous je fais un prix spécial\" !"
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.agent",
+                      "typeVersion":  3.1,
+                      "position":  [
+                                       208,
+                                       -544
+                                   ],
+                      "id":  "eea6717e-56d1-492c-8d28-2cd33dc67ebb",
+                      "name":  "AI Agent"
+                  },
+                  {
+                      "parameters":  {
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -320,
+                                       -352
+                                   ],
+                      "id":  "b924fcdc-c68a-4548-92b9-ca37a6ea35b1",
+                      "name":  "Google Gemini Chat Model",
+                      "credentials":  {
+                                          "googlePalmApi":  {
+                                                                "id":  "nuBfScgU2jukS5r7",
+                                                                "name":  "Google Gemini(PaLM) Api account 5"
+                                                            }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+                      "typeVersion":  1.3,
+                      "position":  [
+                                       -80,
+                                       -336
+                                   ],
+                      "id":  "cf922e63-468d-4a5f-81fe-3be5efb7342d",
+                      "name":  "Simple Memory"
+                  },
+                  {
+                      "parameters":  {
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                            "mode":  "id"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  1387046729,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Produits",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=1387046729"
+                                                       },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.googleSheetsTool",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       848,
+                                       -640
+                                   ],
+                      "id":  "6a89e109-aed6-4eec-95f1-82c662fe9a6e",
+                      "name":  "Get row(s) in sheet in Google Sheets",
+                      "credentials":  {
+                                          "googleSheetsOAuth2Api":  {
+                                                                        "id":  "hRFqPmV4gsWxiIeu",
+                                                                        "name":  "Google Sheets account 8"
+                                                                    }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "append",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                            "mode":  "id"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  922210813,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Commandes",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=922210813"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "autoMapInputData",
+                                                         "value":  {
+
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "order_id",
+                                                                            "displayName":  "order_id",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "customer_name",
+                                                                            "displayName":  "customer_name",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "customer_email",
+                                                                            "displayName":  "customer_email",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "customer_phone",
+                                                                            "displayName":  "customer_phone",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "address",
+                                                                            "displayName":  "address",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "items",
+                                                                            "displayName":  "items",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "total_price",
+                                                                            "displayName":  "total_price",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "discount_applied",
+                                                                            "displayName":  "discount_applied",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "final_price",
+                                                                            "displayName":  "final_price",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "status",
+                                                                            "displayName":  "status",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "payment_method",
+                                                                            "displayName":  "payment_method",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "language",
+                                                                            "displayName":  "language",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "notes",
+                                                                            "displayName":  "notes",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "created_at",
+                                                                            "displayName":  "created_at",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "updated_at",
+                                                                            "displayName":  "updated_at",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.googleSheetsTool",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       1152,
+                                       -576
+                                   ],
+                      "id":  "ead0988d-f58e-4350-9ac2-eeedd78ea781",
+                      "name":  "Append row in sheet in Google Sheets",
+                      "credentials":  {
+                                          "googleSheetsOAuth2Api":  {
+                                                                        "id":  "hRFqPmV4gsWxiIeu",
+                                                                        "name":  "Google Sheets account 8"
+                                                                    }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                            "mode":  "id"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  922210813,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Commandes",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=922210813"
+                                                       },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.googleSheetsTool",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       992,
+                                       -480
+                                   ],
+                      "id":  "0845a073-fccc-42e6-96b3-e202f4e3917c",
+                      "name":  "Get row(s) in sheet in Google Sheets1",
+                      "credentials":  {
+                                          "googleSheetsOAuth2Api":  {
+                                                                        "id":  "hRFqPmV4gsWxiIeu",
+                                                                        "name":  "Google Sheets account 8"
+                                                                    }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "update",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                            "mode":  "id"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  1387046729,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Produits",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=1387046729"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "autoMapInputData",
+                                                         "value":  {
+                                                                       "product_id":  "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI(\u0027product_id\u0027, ``, \u0027string\u0027) }}"
+                                                                   },
+                                                         "matchingColumns":  [
+                                                                                 "product_id"
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "product_id",
+                                                                            "displayName":  "product_id",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "name",
+                                                                            "displayName":  "name",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "category",
+                                                                            "displayName":  "category",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "price",
+                                                                            "displayName":  "price",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "min_price",
+                                                                            "displayName":  "min_price",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "stock",
+                                                                            "displayName":  "stock",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "description",
+                                                                            "displayName":  "description",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "image_url",
+                                                                            "displayName":  "image_url",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "status",
+                                                                            "displayName":  "status",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "created_at",
+                                                                            "displayName":  "created_at",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "row_number",
+                                                                            "displayName":  "row_number",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "number",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "readOnly":  true,
+                                                                            "removed":  true
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.googleSheetsTool",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       1216,
+                                       -320
+                                   ],
+                      "id":  "4ad1535c-adb5-4cf4-ab97-cc61a4f1f2a3",
+                      "name":  "Update row in sheet in Google Sheets",
+                      "credentials":  {
+                                          "googleSheetsOAuth2Api":  {
+                                                                        "id":  "hRFqPmV4gsWxiIeu",
+                                                                        "name":  "Google Sheets account 8"
+                                                                    }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "={{ $fromAI(\"customer_email\") }}",
+                                         "subject":  "✅ Commande confirmée - Souk Digital Marocain",
+                                         "message":  "=\u003ch2\u003e🌟 Marhaba! Votre commande est confirmée!\u003c/h2\u003e \u003cp\u003eBonjour \u003cb\u003e{{ $fromAI(\"customer_name\") }}\u003c/b\u003e,\u003c/p\u003e \u003cp\u003eVotre commande a été confirmée avec succès!\u003c/p\u003e \u003chr\u003e \u003cp\u003e🛍️ Produit: {{ $fromAI(\"items\") }}\u003c/p\u003e \u003cp\u003e💰 Prix final: {{ $fromAI(\"final_price\") }} MAD\u003c/p\u003e \u003cp\u003e📦 Numéro: {{ $fromAI(\"order_id\") }}\u003c/p\u003e \u003chr\u003e \u003cp\u003eMerci de votre confiance!\u003c/p\u003e \u003cp\u003e\u003cb\u003eHassan - Souk Digital 🇲🇦\u003c/b\u003e\u003c/p\u003e",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.gmailTool",
+                      "typeVersion":  2.2,
+                      "position":  [
+                                       368,
+                                       -336
+                                   ],
+                      "id":  "8e7bdb42-0b71-44e8-97c0-7b1dc68c0e08",
+                      "name":  "Send a message in Gmail",
+                      "webhookId":  "cabd325b-ab45-440f-9f0c-f5a5f0315d5c",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "hYYSj6DrJAJIOAIf",
+                                                              "name":  "Gmail account 4"
+                                                          }
+                                      }
+                  }
+              ],
+    "connections":  {
+                        "When chat message received":  {
+                                                           "main":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "AI Agent",
+                                                                                "type":  "main",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                       },
+                        "Google Gemini Chat Model":  {
+                                                         "ai_languageModel":  [
+                                                                                  [
+                                                                                      {
+                                                                                          "node":  "AI Agent",
+                                                                                          "type":  "ai_languageModel",
+                                                                                          "index":  0
+                                                                                      }
+                                                                                  ]
+                                                                              ]
+                                                     },
+                        "Simple Memory":  {
+                                              "ai_memory":  [
+                                                                [
+                                                                    {
+                                                                        "node":  "AI Agent",
+                                                                        "type":  "ai_memory",
+                                                                        "index":  0
+                                                                    }
+                                                                ]
+                                                            ]
+                                          },
+                        "Get row(s) in sheet in Google Sheets":  {
+                                                                     "ai_tool":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "AI Agent",
+                                                                                             "type":  "ai_tool",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                 },
+                        "AI Agent":  {
+                                         "main":  [
+                                                      [
+
+                                                      ]
+                                                  ]
+                                     },
+                        "Append row in sheet in Google Sheets":  {
+                                                                     "ai_tool":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "AI Agent",
+                                                                                             "type":  "ai_tool",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                 },
+                        "Get row(s) in sheet in Google Sheets1":  {
+                                                                      "ai_tool":  [
+                                                                                      [
+                                                                                          {
+                                                                                              "node":  "AI Agent",
+                                                                                              "type":  "ai_tool",
+                                                                                              "index":  0
+                                                                                          }
+                                                                                      ]
+                                                                                  ]
+                                                                  },
+                        "Update row in sheet in Google Sheets":  {
+                                                                     "ai_tool":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "AI Agent",
+                                                                                             "type":  "ai_tool",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                 },
+                        "Send a message in Gmail":  {
+                                                        "ai_tool":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "AI Agent",
+                                                                                "type":  "ai_tool",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                    }
+                    },
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "binaryMode":  "separate",
+                     "availableInMCP":  false
+                 },
+    "staticData":  null,
+    "meta":  {
+                 "templateCredsSetupCompleted":  true
+             },
+    "pinData":  {
+
+                },
+    "versionId":  "551911c7-ffda-4282-8ec9-0b93aba0d1ae",
+    "activeVersionId":  "551911c7-ffda-4282-8ec9-0b93aba0d1ae",
+    "versionCounter":  162,
+    "triggerCount":  1,
+    "shared":  [
+                   {
+                       "updatedAt":  "2026-02-18T12:29:01.223Z",
+                       "createdAt":  "2026-02-18T12:29:01.223Z",
+                       "role":  "workflow:owner",
+                       "workflowId":  "WyabXMHUZiURTwya",
+                       "projectId":  "Exq0UrpvY9MgchpM",
+                       "project":  {
+                                       "updatedAt":  "2026-02-16T12:21:36.366Z",
+                                       "createdAt":  "2026-02-16T12:14:19.798Z",
+                                       "id":  "Exq0UrpvY9MgchpM",
+                                       "name":  "GHIZLANE MISBAHI \u003cmisbahighizlan@gmail.com\u003e",
+                                       "type":  "personal",
+                                       "icon":  null,
+                                       "description":  null,
+                                       "creatorId":  "88b99488-6a1e-4581-84f7-94d840c7d2e9",
+                                       "projectRelations":  [
+                                                                {
+                                                                    "updatedAt":  "2026-02-16T12:14:19.809Z",
+                                                                    "createdAt":  "2026-02-16T12:14:19.809Z",
+                                                                    "userId":  "88b99488-6a1e-4581-84f7-94d840c7d2e9",
+                                                                    "projectId":  "Exq0UrpvY9MgchpM",
+                                                                    "user":  {
+                                                                                 "updatedAt":  "2026-02-20T21:32:27.384Z",
+                                                                                 "createdAt":  "2026-02-16T12:14:19.769Z",
+                                                                                 "id":  "88b99488-6a1e-4581-84f7-94d840c7d2e9",
+                                                                                 "email":  "misbahighizlan@gmail.com",
+                                                                                 "firstName":  "GHIZLANE",
+                                                                                 "lastName":  "MISBAHI",
+                                                                                 "personalizationAnswers":  {
+                                                                                                                "version":  "v4",
+                                                                                                                "personalization_survey_submitted_at":  "2026-02-17T15:42:45.213Z",
+                                                                                                                "personalization_survey_n8n_version":  "2.7.5",
+                                                                                                                "automationGoalDevops":  [
+                                                                                                                                             "monitoring-alerting",
+                                                                                                                                             "ci-cd"
+                                                                                                                                         ],
+                                                                                                                "companySize":  "\u003c20",
+                                                                                                                "companyType":  "saas",
+                                                                                                                "role":  "it",
+                                                                                                                "reportedSource":  "google"
+                                                                                                            },
+                                                                                 "settings":  {
+                                                                                                  "easyAIWorkflowOnboarded":  true,
+                                                                                                  "firstSuccessfulWorkflowId":  "WyabXMHUZiURTwya",
+                                                                                                  "userActivated":  true,
+                                                                                                  "userActivatedAt":  1771623143385
+                                                                                              },
+                                                                                 "disabled":  false,
+                                                                                 "mfaEnabled":  false,
+                                                                                 "lastActiveAt":  "2026-02-19",
+                                                                                 "isPending":  false
+                                                                             }
+                                                                }
+                                                            ]
+                                   }
+                   }
+               ],
+    "tags":  [
+
+             ],
+    "activeVersion":  {
+                          "updatedAt":  "2026-02-20T22:40:47.000Z",
+                          "createdAt":  "2026-02-20T21:28:16.765Z",
+                          "versionId":  "551911c7-ffda-4282-8ec9-0b93aba0d1ae",
+                          "workflowId":  "WyabXMHUZiURTwya",
+                          "nodes":  [
+                                        {
+                                            "parameters":  {
+                                                               "public":  true,
+                                                               "initialMessages":  "Marhaba! 🌟 Je suis Hassan, votre agent commercial \ndu Souk Digital Marocain. Comment puis-je vous aider?",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "@n8n/n8n-nodes-langchain.chatTrigger",
+                                            "typeVersion":  1.4,
+                                            "position":  [
+                                                             -224,
+                                                             -544
+                                                         ],
+                                            "id":  "9c9cd84b-a20b-441b-a51e-eb37800b9b34",
+                                            "name":  "When chat message received",
+                                            "webhookId":  "153f50a6-29bd-42e1-bd70-236bbb8f8bc2"
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "options":  {
+                                                                               "systemMessage":  "You are a helpful assistantTu es Hassan, un agent commercial chaleureux du Souk Digital Marocain.\nTu parles la langue du client (français/anglais/arabe - détecte automatiquement).\n\nRÈGLES DE NÉGOCIATION:\n- Ne jamais vendre sous le min_price\n- Remise max: electronique 20%, vetements 35%, beaute 25%, accessoires 30%, maison 33%\n- Fais des contre-offres sympathiques si le client demande trop\n\nSois humain, chaleureux, utilise \"Bismillah\", \"Pour vous je fais un prix spécial\" !"
+                                                                           }
+                                                           },
+                                            "type":  "@n8n/n8n-nodes-langchain.agent",
+                                            "typeVersion":  3.1,
+                                            "position":  [
+                                                             208,
+                                                             -544
+                                                         ],
+                                            "id":  "eea6717e-56d1-492c-8d28-2cd33dc67ebb",
+                                            "name":  "AI Agent"
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                                            "typeVersion":  1,
+                                            "position":  [
+                                                             -320,
+                                                             -352
+                                                         ],
+                                            "id":  "b924fcdc-c68a-4548-92b9-ca37a6ea35b1",
+                                            "name":  "Google Gemini Chat Model",
+                                            "credentials":  {
+                                                                "googlePalmApi":  {
+                                                                                      "id":  "nuBfScgU2jukS5r7",
+                                                                                      "name":  "Google Gemini(PaLM) Api account 5"
+                                                                                  }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+
+                                                           },
+                                            "type":  "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+                                            "typeVersion":  1.3,
+                                            "position":  [
+                                                             -80,
+                                                             -336
+                                                         ],
+                                            "id":  "cf922e63-468d-4a5f-81fe-3be5efb7342d",
+                                            "name":  "Simple Memory"
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "documentId":  {
+                                                                                  "__rl":  true,
+                                                                                  "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                                                  "mode":  "id"
+                                                                              },
+                                                               "sheetName":  {
+                                                                                 "__rl":  true,
+                                                                                 "value":  1387046729,
+                                                                                 "mode":  "list",
+                                                                                 "cachedResultName":  "Produits",
+                                                                                 "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=1387046729"
+                                                                             },
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "n8n-nodes-base.googleSheetsTool",
+                                            "typeVersion":  4.7,
+                                            "position":  [
+                                                             848,
+                                                             -640
+                                                         ],
+                                            "id":  "6a89e109-aed6-4eec-95f1-82c662fe9a6e",
+                                            "name":  "Get row(s) in sheet in Google Sheets",
+                                            "credentials":  {
+                                                                "googleSheetsOAuth2Api":  {
+                                                                                              "id":  "hRFqPmV4gsWxiIeu",
+                                                                                              "name":  "Google Sheets account 8"
+                                                                                          }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "operation":  "append",
+                                                               "documentId":  {
+                                                                                  "__rl":  true,
+                                                                                  "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                                                  "mode":  "id"
+                                                                              },
+                                                               "sheetName":  {
+                                                                                 "__rl":  true,
+                                                                                 "value":  922210813,
+                                                                                 "mode":  "list",
+                                                                                 "cachedResultName":  "Commandes",
+                                                                                 "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=922210813"
+                                                                             },
+                                                               "columns":  {
+                                                                               "mappingMode":  "autoMapInputData",
+                                                                               "value":  {
+
+                                                                                         },
+                                                                               "matchingColumns":  [
+
+                                                                                                   ],
+                                                                               "schema":  [
+                                                                                              {
+                                                                                                  "id":  "order_id",
+                                                                                                  "displayName":  "order_id",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "customer_name",
+                                                                                                  "displayName":  "customer_name",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "customer_email",
+                                                                                                  "displayName":  "customer_email",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "customer_phone",
+                                                                                                  "displayName":  "customer_phone",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "address",
+                                                                                                  "displayName":  "address",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "items",
+                                                                                                  "displayName":  "items",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "total_price",
+                                                                                                  "displayName":  "total_price",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "discount_applied",
+                                                                                                  "displayName":  "discount_applied",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "final_price",
+                                                                                                  "displayName":  "final_price",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "status",
+                                                                                                  "displayName":  "status",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "payment_method",
+                                                                                                  "displayName":  "payment_method",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "language",
+                                                                                                  "displayName":  "language",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "notes",
+                                                                                                  "displayName":  "notes",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "created_at",
+                                                                                                  "displayName":  "created_at",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "updated_at",
+                                                                                                  "displayName":  "updated_at",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              }
+                                                                                          ],
+                                                                               "attemptToConvertTypes":  false,
+                                                                               "convertFieldsToString":  false
+                                                                           },
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "n8n-nodes-base.googleSheetsTool",
+                                            "typeVersion":  4.7,
+                                            "position":  [
+                                                             1152,
+                                                             -576
+                                                         ],
+                                            "id":  "ead0988d-f58e-4350-9ac2-eeedd78ea781",
+                                            "name":  "Append row in sheet in Google Sheets",
+                                            "credentials":  {
+                                                                "googleSheetsOAuth2Api":  {
+                                                                                              "id":  "hRFqPmV4gsWxiIeu",
+                                                                                              "name":  "Google Sheets account 8"
+                                                                                          }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "documentId":  {
+                                                                                  "__rl":  true,
+                                                                                  "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                                                  "mode":  "id"
+                                                                              },
+                                                               "sheetName":  {
+                                                                                 "__rl":  true,
+                                                                                 "value":  922210813,
+                                                                                 "mode":  "list",
+                                                                                 "cachedResultName":  "Commandes",
+                                                                                 "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=922210813"
+                                                                             },
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "n8n-nodes-base.googleSheetsTool",
+                                            "typeVersion":  4.7,
+                                            "position":  [
+                                                             992,
+                                                             -480
+                                                         ],
+                                            "id":  "0845a073-fccc-42e6-96b3-e202f4e3917c",
+                                            "name":  "Get row(s) in sheet in Google Sheets1",
+                                            "credentials":  {
+                                                                "googleSheetsOAuth2Api":  {
+                                                                                              "id":  "hRFqPmV4gsWxiIeu",
+                                                                                              "name":  "Google Sheets account 8"
+                                                                                          }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "operation":  "update",
+                                                               "documentId":  {
+                                                                                  "__rl":  true,
+                                                                                  "value":  "1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA",
+                                                                                  "mode":  "id"
+                                                                              },
+                                                               "sheetName":  {
+                                                                                 "__rl":  true,
+                                                                                 "value":  1387046729,
+                                                                                 "mode":  "list",
+                                                                                 "cachedResultName":  "Produits",
+                                                                                 "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1e2V85T4msHTBUDcEZiAWRsRbaPTqUlG_q94kBGKi8jA/edit#gid=1387046729"
+                                                                             },
+                                                               "columns":  {
+                                                                               "mappingMode":  "autoMapInputData",
+                                                                               "value":  {
+                                                                                             "product_id":  "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI(\u0027product_id\u0027, ``, \u0027string\u0027) }}"
+                                                                                         },
+                                                                               "matchingColumns":  [
+                                                                                                       "product_id"
+                                                                                                   ],
+                                                                               "schema":  [
+                                                                                              {
+                                                                                                  "id":  "product_id",
+                                                                                                  "displayName":  "product_id",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true,
+                                                                                                  "removed":  false
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "name",
+                                                                                                  "displayName":  "name",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "category",
+                                                                                                  "displayName":  "category",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "price",
+                                                                                                  "displayName":  "price",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "min_price",
+                                                                                                  "displayName":  "min_price",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "stock",
+                                                                                                  "displayName":  "stock",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "description",
+                                                                                                  "displayName":  "description",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "image_url",
+                                                                                                  "displayName":  "image_url",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "status",
+                                                                                                  "displayName":  "status",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "created_at",
+                                                                                                  "displayName":  "created_at",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "string",
+                                                                                                  "canBeUsedToMatch":  true
+                                                                                              },
+                                                                                              {
+                                                                                                  "id":  "row_number",
+                                                                                                  "displayName":  "row_number",
+                                                                                                  "required":  false,
+                                                                                                  "defaultMatch":  false,
+                                                                                                  "display":  true,
+                                                                                                  "type":  "number",
+                                                                                                  "canBeUsedToMatch":  true,
+                                                                                                  "readOnly":  true,
+                                                                                                  "removed":  true
+                                                                                              }
+                                                                                          ],
+                                                                               "attemptToConvertTypes":  false,
+                                                                               "convertFieldsToString":  false
+                                                                           },
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "n8n-nodes-base.googleSheetsTool",
+                                            "typeVersion":  4.7,
+                                            "position":  [
+                                                             1216,
+                                                             -320
+                                                         ],
+                                            "id":  "4ad1535c-adb5-4cf4-ab97-cc61a4f1f2a3",
+                                            "name":  "Update row in sheet in Google Sheets",
+                                            "credentials":  {
+                                                                "googleSheetsOAuth2Api":  {
+                                                                                              "id":  "hRFqPmV4gsWxiIeu",
+                                                                                              "name":  "Google Sheets account 8"
+                                                                                          }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "sendTo":  "={{ $fromAI(\"customer_email\") }}",
+                                                               "subject":  "✅ Commande confirmée - Souk Digital Marocain",
+                                                               "message":  "=\u003ch2\u003e🌟 Marhaba! Votre commande est confirmée!\u003c/h2\u003e \u003cp\u003eBonjour \u003cb\u003e{{ $fromAI(\"customer_name\") }}\u003c/b\u003e,\u003c/p\u003e \u003cp\u003eVotre commande a été confirmée avec succès!\u003c/p\u003e \u003chr\u003e \u003cp\u003e🛍️ Produit: {{ $fromAI(\"items\") }}\u003c/p\u003e \u003cp\u003e💰 Prix final: {{ $fromAI(\"final_price\") }} MAD\u003c/p\u003e \u003cp\u003e📦 Numéro: {{ $fromAI(\"order_id\") }}\u003c/p\u003e \u003chr\u003e \u003cp\u003eMerci de votre confiance!\u003c/p\u003e \u003cp\u003e\u003cb\u003eHassan - Souk Digital 🇲🇦\u003c/b\u003e\u003c/p\u003e",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "type":  "n8n-nodes-base.gmailTool",
+                                            "typeVersion":  2.2,
+                                            "position":  [
+                                                             368,
+                                                             -336
+                                                         ],
+                                            "id":  "8e7bdb42-0b71-44e8-97c0-7b1dc68c0e08",
+                                            "name":  "Send a message in Gmail",
+                                            "webhookId":  "cabd325b-ab45-440f-9f0c-f5a5f0315d5c",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "hYYSj6DrJAJIOAIf",
+                                                                                    "name":  "Gmail account 4"
+                                                                                }
+                                                            }
+                                        }
+                                    ],
+                          "connections":  {
+                                              "When chat message received":  {
+                                                                                 "main":  [
+                                                                                              [
+                                                                                                  {
+                                                                                                      "node":  "AI Agent",
+                                                                                                      "type":  "main",
+                                                                                                      "index":  0
+                                                                                                  }
+                                                                                              ]
+                                                                                          ]
+                                                                             },
+                                              "Google Gemini Chat Model":  {
+                                                                               "ai_languageModel":  [
+                                                                                                        [
+                                                                                                            {
+                                                                                                                "node":  "AI Agent",
+                                                                                                                "type":  "ai_languageModel",
+                                                                                                                "index":  0
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    ]
+                                                                           },
+                                              "Simple Memory":  {
+                                                                    "ai_memory":  [
+                                                                                      [
+                                                                                          {
+                                                                                              "node":  "AI Agent",
+                                                                                              "type":  "ai_memory",
+                                                                                              "index":  0
+                                                                                          }
+                                                                                      ]
+                                                                                  ]
+                                                                },
+                                              "Get row(s) in sheet in Google Sheets":  {
+                                                                                           "ai_tool":  [
+                                                                                                           [
+                                                                                                               {
+                                                                                                                   "node":  "AI Agent",
+                                                                                                                   "type":  "ai_tool",
+                                                                                                                   "index":  0
+                                                                                                               }
+                                                                                                           ]
+                                                                                                       ]
+                                                                                       },
+                                              "AI Agent":  {
+                                                               "main":  [
+                                                                            [
+
+                                                                            ]
+                                                                        ]
+                                                           },
+                                              "Append row in sheet in Google Sheets":  {
+                                                                                           "ai_tool":  [
+                                                                                                           [
+                                                                                                               {
+                                                                                                                   "node":  "AI Agent",
+                                                                                                                   "type":  "ai_tool",
+                                                                                                                   "index":  0
+                                                                                                               }
+                                                                                                           ]
+                                                                                                       ]
+                                                                                       },
+                                              "Get row(s) in sheet in Google Sheets1":  {
+                                                                                            "ai_tool":  [
+                                                                                                            [
+                                                                                                                {
+                                                                                                                    "node":  "AI Agent",
+                                                                                                                    "type":  "ai_tool",
+                                                                                                                    "index":  0
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        ]
+                                                                                        },
+                                              "Update row in sheet in Google Sheets":  {
+                                                                                           "ai_tool":  [
+                                                                                                           [
+                                                                                                               {
+                                                                                                                   "node":  "AI Agent",
+                                                                                                                   "type":  "ai_tool",
+                                                                                                                   "index":  0
+                                                                                                               }
+                                                                                                           ]
+                                                                                                       ]
+                                                                                       },
+                                              "Send a message in Gmail":  {
+                                                                              "ai_tool":  [
+                                                                                              [
+                                                                                                  {
+                                                                                                      "node":  "AI Agent",
+                                                                                                      "type":  "ai_tool",
+                                                                                                      "index":  0
+                                                                                                  }
+                                                                                              ]
+                                                                                          ]
+                                                                          }
+                                          },
+                          "authors":  "GHIZLANE MISBAHI",
+                          "name":  "Version 551911c7",
+                          "description":  "",
+                          "autosaved":  true,
+                          "workflowPublishHistory":  [
+                                                         {
+                                                             "createdAt":  "2026-02-20T22:40:47.639Z",
+                                                             "id":  52,
+                                                             "workflowId":  "WyabXMHUZiURTwya",
+                                                             "versionId":  "551911c7-ffda-4282-8ec9-0b93aba0d1ae",
+                                                             "event":  "activated",
+                                                             "userId":  "88b99488-6a1e-4581-84f7-94d840c7d2e9"
+                                                         }
+                                                     ]
+                      }
+}
