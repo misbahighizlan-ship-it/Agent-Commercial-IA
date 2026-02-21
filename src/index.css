@@ -1,43 +1,91 @@
 @import "tailwindcss";
 
 @theme {
-  --color-souk-red: #c1272d;
-  --color-souk-yellow: #ffcc00;
-  --color-souk-dark: #1a1a1a;
+  /* Vivid Luxury Moroccan Palette */
+  --color-souk-gold: #FFBF00;
+  /* Vivid Amber/Gold */
+  --color-souk-emerald: #008F11;
+  /* Vivid Emerald */
+  --color-souk-midnight: #001B21;
+  /* Deeper Midnight */
+  --color-souk-ruby: #E0115F;
+  /* Vivid Ruby */
+  --color-souk-azure: #007FFF;
+  /* Vivid Moroccan Blue */
+  --color-souk-sand: #FDF5E6;
+  --color-souk-cream: #FFFEFA;
 
-  --color-maroon-50: #fef2f2;
-  --color-maroon-100: #fee2e2;
-  --color-maroon-200: #fecaca;
-  --color-maroon-300: #fca5a5;
-  --color-maroon-400: #f87171;
-  --color-maroon-500: #ef4444;
-  --color-maroon-600: #dc2626;
-  --color-maroon-700: #b91c1c;
-  --color-maroon-800: #991b1b;
-  --color-maroon-900: #7f1d1d;
-  --color-maroon-950: #450a0a;
+  /* Typography */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Montserrat", sans-serif;
 
-  --font-serif: "Merriweather", serif;
-  --font-sans: "Inter", sans-serif;
+  /* Custom Shadows */
+  --shadow-luxury-glass: 0 8px 32px 0 rgba(0, 127, 255, 0.1);
+  --shadow-luxury-btn: 0 4px 14px 0 rgba(255, 191, 0, 0.39);
+  --shadow-luxury-hover: 0 6px 20px 0 rgba(255, 191, 0, 0.4);
+  --shadow-luxury-deep: 0 30px 60px -15px rgba(0, 27, 33, 0.2);
 }
 
 :root {
-  --souk-red: #c1272d;
-  --souk-yellow: #ffcc00;
+  --souk-gold: #D4AF37;
+  --souk-emerald: #046307;
+  --souk-midnight: #002B36;
 }
 
 body {
-  @apply bg-orange-50 text-gray-900 font-sans;
+  @apply bg-souk-cream text-souk-midnight font-sans antialiased;
 }
 
+/* Luxury Glassmorphism */
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  @apply bg-white/40 backdrop-blur-xl border border-white/30 shadow-luxury-glass;
 }
 
-.souk-gradient {
-  @apply bg-gradient-to-br from-souk-red to-maroon-800;
+.glass-card-dark {
+  @apply bg-souk-midnight/10 backdrop-blur-lg border border-souk-midnight/20 shadow-xl;
 }
 
-.btn-primary {
-  @apply px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg;
+/* Traditional Patterns */
+.zellij-pattern {
+  background-color: var(--color-souk-cream);
+  background-image: radial-gradient(var(--color-souk-gold) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+}
+
+.spirit-gradient {
+  background: linear-gradient(-45deg, #001B21, #007FFF, #E0115F, #FFBF00);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.luxury-gradient {
+  @apply bg-gradient-to-br from-souk-midnight via-souk-ruby to-souk-midnight;
+}
+
+/* Premium Components */
+.btn-luxury {
+  @apply px-8 py-3 rounded-full font-bold transition-all duration-500 bg-souk-gold text-white shadow-luxury-btn hover:shadow-luxury-hover hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer;
+}
+
+.btn-outline-luxury {
+  @apply px-8 py-3 rounded-full font-bold transition-all duration-500 border-2 border-souk-gold text-souk-gold hover:bg-souk-gold hover:text-white flex items-center justify-center cursor-pointer;
+}
+
+/* Typography Helpers */
+.title-luxury {
+  @apply font-serif text-souk-midnight tracking-tight leading-tight;
 }

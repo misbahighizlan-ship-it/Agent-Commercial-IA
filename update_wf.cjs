@@ -1,10 +1,7 @@
 const fs = require('fs');
 let content = fs.readFileSync('workflow_full.json', 'utf8');
-if (content.charCodeAt(0) === 0xFEFF) {
-  content = content.slice(1);
-}
+if (content.charCodeAt(0) === 0xFEFF) content = content.slice(1);
 const wf = JSON.parse(content);
-
 
 const newPrompt = `Tu es Hassan, un agent commercial expert et chaleureux 
 du Souk Digital Marocain.
@@ -52,5 +49,5 @@ if (agentNode) {
   agentNode.parameters.options.systemMessage = newPrompt;
 }
 
-fs.writeFileSync('nodes.json', JSON.stringify(wf.nodes, null, 2));
-fs.writeFileSync('connections.json', JSON.stringify(wf.connections, null, 2));
+fs.writeFileSync('nodes.json', JSON.stringify(wf.nodes));
+fs.writeFileSync('connections.json', JSON.stringify(wf.connections));
