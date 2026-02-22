@@ -35,28 +35,31 @@ const Chat = () => {
             "Babouches": "/assets/moroccan/babouches.png",
             "Théière": "/assets/moroccan/souk_1.jpg",
             "Lanterne": "/assets/moroccan/souk_2.jpg",
-            "Huile": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=400"
+            "Huile": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=400",
+            "Galaxy": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&q=80&w=400",
+            "S24": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&q=80&w=400",
+            "iPhone": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80&w=400"
         };
 
         const produits = [
             "Lanterne", "Babouches", "Tapis", "Théière",
             "Smartphone", "Laptop", "Casque", "Montre",
             "T-shirt", "Jean", "Huile", "Crème", "Enceinte",
-            "Sac", "Chargeur", "Écouteurs"
+            "Sac", "Chargeur", "Écouteurs", "Galaxy", "S24", "iPhone"
         ];
 
-        produits.forEach(produit => {
-            if (hassanMessage.includes(produit) ||
-                userMessage.includes(produit)) {
+        const combinedText = (hassanMessage + " " + userMessage).toLowerCase();
 
-                const prixMatch = hassanMessage.match(/(\d+)\s*(MAD|DH|dh|mad)/);
+        produits.forEach(produit => {
+            if (combinedText.includes(produit.toLowerCase())) {
+                const prixMatch = hassanMessage.match(/(\d+)\s*(MAD|DH|dh|mad)/i);
                 const prix = prixMatch ? prixMatch[1] : "À négocier";
 
                 setCart(prev => ({
                     ...prev,
                     items: [{
                         id: Date.now(),
-                        name: produit,
+                        name: produit === "S24" ? "Galaxy S24" : produit,
                         price: prix + " DH",
                         statut: "En négociation",
                         image: productAssets[produit] || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400"
