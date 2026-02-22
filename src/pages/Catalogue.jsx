@@ -112,77 +112,97 @@ const Catalogue = () => {
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-20"
                     >
                         <AnimatePresence mode="popLayout">
-                            {filteredProducts.map(product => (
-                                <motion.div
-                                    key={product.id}
-                                    layout
-                                    variants={{
-                                        hidden: { opacity: 0, y: 30 },
-                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-                                    }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="glass-card rounded-[2.5rem] overflow-hidden group hover:shadow-[0_20px_50px_rgba(212,175,55,0.2)] transition-all duration-700 border-none relative bg-white/80"
-                                >
-                                    <div className="relative h-96 overflow-hidden">
-                                        <img
-                                            src={product.image}
-                                            alt={product.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out opacity-90"
-                                        />
-                                        <div className="absolute top-8 left-8">
-                                            <span className="bg-souk-midnight/90 backdrop-blur-xl text-souk-gold px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] border border-souk-gold/30 shadow-lg">
-                                                {product.category}
-                                            </span>
-                                        </div>
-
-                                        {/* Stock Badge */}
-                                        <div className="absolute top-8 right-8">
-                                            <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] shadow-lg border backdrop-blur-md transition-colors duration-500 ${product.stock > 0
-                                                    ? 'bg-emerald-500/80 text-white border-emerald-400/30'
-                                                    : 'bg-rose-500/80 text-white border-rose-400/30'
-                                                }`}>
-                                                {product.stock > 0 ? '● En Stock' : '○ Rupture'}
-                                            </span>
-                                        </div>
-
-                                        {product.stock > 0 && product.stock < 10 && (
-                                            <div className="absolute bottom-8 left-8 text-center w-full pr-16">
-                                                <span className="bg-souk-ruby/90 backdrop-blur-xl text-white px-6 py-2 rounded-full text-[9px] font-black tracking-[0.4em] shadow-2xl uppercase border border-white/20">
-                                                    ÉDITION LIMITÉE
+                            {filteredProducts.length > 0 ? (
+                                filteredProducts.map(product => (
+                                    <motion.div
+                                        key={product.id}
+                                        layout
+                                        variants={{
+                                            hidden: { opacity: 0, y: 30 },
+                                            show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                                        }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        className="glass-card rounded-[2.5rem] overflow-hidden group hover:shadow-[0_20px_50px_rgba(212,175,55,0.2)] transition-all duration-700 border-none relative bg-white/80"
+                                    >
+                                        <div className="relative h-96 overflow-hidden">
+                                            <img
+                                                src={product.image}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out opacity-90"
+                                            />
+                                            <div className="absolute top-8 left-8">
+                                                <span className="bg-souk-midnight/90 backdrop-blur-xl text-souk-gold px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] border border-souk-gold/30 shadow-lg">
+                                                    {product.category}
                                                 </span>
                                             </div>
-                                        )}
-                                    </div>
 
-                                    <div className="p-10 relative">
-                                        <div className="absolute top-0 right-10 -translate-y-1/2 w-16 h-16 bg-souk-gold rotate-45 flex items-center justify-center shadow-luxury-btn border-4 border-white group-hover:scale-110 transition-transform">
-                                            <span className="text-white -rotate-45 font-serif font-black italic">H</span>
-                                        </div>
-                                        <h3 className="text-3xl title-luxury mb-4 group-hover:text-souk-gold transition-colors font-black italic uppercase leading-tight">{product.name}</h3>
-                                        <div className="flex justify-between items-end mb-10">
-                                            <div>
-                                                <span className="text-4xl font-serif font-black text-souk-gold underline decoration-souk-ruby/20">{product.price}</span>
-                                                <p className="text-[9px] text-souk-midnight/40 uppercase tracking-[0.3em] mt-3 font-black">Splendeur de l'Artisanat</p>
+                                            {/* Stock Badge */}
+                                            <div className="absolute top-8 right-8">
+                                                <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] shadow-lg border backdrop-blur-md transition-colors duration-500 ${product.stock > 0
+                                                    ? 'bg-emerald-500/80 text-white border-emerald-400/30'
+                                                    : 'bg-rose-500/80 text-white border-rose-400/30'
+                                                    }`}>
+                                                    {product.stock > 0 ? '● En Stock' : '○ Rupture'}
+                                                </span>
                                             </div>
-                                            <span className="text-souk-midnight/20 text-[9px] font-black uppercase tracking-[0.4em]">{product.stock} PIÈCES</span>
+
+                                            {product.stock > 0 && product.stock < 10 && (
+                                                <div className="absolute bottom-8 left-8 text-center w-full pr-16">
+                                                    <span className="bg-souk-ruby/90 backdrop-blur-xl text-white px-6 py-2 rounded-full text-[9px] font-black tracking-[0.4em] shadow-2xl uppercase border border-white/20">
+                                                        ÉDITION LIMITÉE
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
 
-                                        <button
-                                            onClick={() => navigate('/chat', { state: { product } })}
-                                            className="btn-luxury w-full group/btn relative overflow-hidden py-6 !bg-souk-midnight !text-souk-gold border border-souk-gold/30 transform transition-all duration-300 active:scale-95"
-                                        >
-                                            <span className="relative z-10 flex items-center justify-center gap-4 tracking-[0.4em] text-[10px] font-black uppercase">
-                                                <MessageSquare size={18} strokeWidth={2} />
-                                                Négocier l'Excellence
-                                            </span>
-                                            <div className="absolute inset-0 bg-souk-gold translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none">
-                                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-souk-midnight z-20 font-bold">Contacter Hassan</span>
+                                        <div className="p-10 relative">
+                                            <div className="absolute top-0 right-10 -translate-y-1/2 w-16 h-16 bg-souk-gold rotate-45 flex items-center justify-center shadow-luxury-btn border-4 border-white group-hover:scale-110 transition-transform">
+                                                <span className="text-white -rotate-45 font-serif font-black italic">H</span>
                                             </div>
-                                        </button>
+                                            <h3 className="text-3xl title-luxury mb-4 group-hover:text-souk-gold transition-colors font-black italic uppercase leading-tight">{product.name}</h3>
+                                            <div className="flex justify-between items-end mb-10">
+                                                <div>
+                                                    <span className="text-4xl font-serif font-black text-souk-gold underline decoration-souk-ruby/20">{product.price}</span>
+                                                    <p className="text-[9px] text-souk-midnight/40 uppercase tracking-[0.3em] mt-3 font-black">Splendeur de l'Artisanat</p>
+                                                </div>
+                                                <span className="text-souk-midnight/20 text-[9px] font-black uppercase tracking-[0.4em]">{product.stock} PIÈCES</span>
+                                            </div>
+
+                                            <button
+                                                onClick={() => navigate('/chat', { state: { product } })}
+                                                className="btn-luxury w-full group/btn relative overflow-hidden py-6 !bg-souk-midnight !text-souk-gold border border-souk-gold/30 transform transition-all duration-300 active:scale-95"
+                                            >
+                                                <span className="relative z-10 flex items-center justify-center gap-4 tracking-[0.4em] text-[10px] font-black uppercase">
+                                                    <MessageSquare size={18} strokeWidth={2} />
+                                                    Négocier l'Excellence
+                                                </span>
+                                                <div className="absolute inset-0 bg-souk-gold translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500"></div>
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-souk-midnight z-20 font-bold">Contacter Hassan</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                ))
+                            ) : (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="col-span-full py-20 text-center"
+                                >
+                                    <div className="w-32 h-32 bg-souk-gold/10 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-dashed border-souk-gold/30">
+                                        <Search size={48} className="text-souk-gold/40" />
                                     </div>
+                                    <h3 className="text-2xl title-luxury mb-4 text-souk-midnight/60">Aucun trésor trouvé</h3>
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-souk-gold font-black italic">Hassan n'a pas trouvé cette perle rare. Essayez une autre recherche.</p>
+                                    <button
+                                        onClick={() => { setSearch(''); setFilter('All'); }}
+                                        className="mt-10 btn-outline-luxury !border-souk-gold !text-souk-gold"
+                                    >
+                                        Tout Réinitialiser
+                                    </button>
                                 </motion.div>
-                            ))}
+                            )}
                         </AnimatePresence>
                     </motion.div>
                 )}

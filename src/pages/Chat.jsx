@@ -15,7 +15,7 @@ const Chat = () => {
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState({ items: [], status: null });
     const [showCart, setShowCart] = useState(false);
 
     useEffect(() => {
@@ -23,6 +23,52 @@ const Chat = () => {
             sessionStorage.setItem("sessionId", crypto.randomUUID());
         }
     }, []);
+
+    const updateCart = (hassanMessage, userMessage) => {
+        const productAssets = {
+            "Tajine": "/assets/moroccan/tajine.png",
+            "Tapis": "/assets/moroccan/rug.png",
+            "Babouches": "/assets/moroccan/babouches.png",
+            "Théière": "/assets/moroccan/souk_1.jpg",
+            "Lanterne": "/assets/moroccan/souk_2.jpg",
+            "Huile": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=400"
+        };
+
+        const produits = [
+            "Lanterne", "Babouches", "Tapis", "Théière",
+            "Smartphone", "Laptop", "Casque", "Montre",
+            "T-shirt", "Jean", "Huile", "Crème", "Enceinte",
+            "Sac", "Chargeur", "Écouteurs"
+        ];
+
+        produits.forEach(produit => {
+            if (hassanMessage.includes(produit) ||
+                userMessage.includes(produit)) {
+
+                const prixMatch = hassanMessage.match(/(\d+)\s*(MAD|DH|dh|mad)/);
+                const prix = prixMatch ? prixMatch[1] : "À négocier";
+
+                setCart(prev => ({
+                    ...prev,
+                    items: [{
+                        id: Date.now(),
+                        name: produit,
+                        price: prix + " DH",
+                        statut: "En négociation",
+                        image: productAssets[produit] || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400"
+                    }]
+                }));
+            }
+        });
+
+        if (hassanMessage.toLowerCase().includes("confirm") ||
+            hassanMessage.toLowerCase().includes("commande")) {
+            setCart(prev => ({
+                ...prev,
+                status: "✅ Commande confirmée"
+            }));
+        }
+    };
 
     const messagesEndRef = useRef(null);
 
@@ -38,6 +84,13 @@ const Chat = () => {
         if (location.state?.product) {
             const p = location.state.product;
             handleSendMessage(`Je suis fasciné par ce trésor : ${p.name}`);
+            setCart({
+                items: [{
+                    ...p,
+                    statut: "Sélectionné"
+                }],
+                status: "En attente de discussion"
+            });
         }
     }, [location.state]);
 
@@ -58,7 +111,6 @@ const Chat = () => {
             });
 
             if (!response.ok) {
-                // Ne pas afficher erreur technique à l'utilisateur
                 return "Hassan réfléchit... Répétez votre message svp";
             }
 
@@ -91,6 +143,7 @@ const Chat = () => {
         }]);
 
         setIsLoading(false);
+        updateCart(botReply, messageText);
     };
 
     return (
@@ -130,9 +183,9 @@ const Chat = () => {
                             className="relative p-3 rounded-2xl bg-souk-midnight text-souk-gold hover:scale-105 transition-all shadow-lg group border border-souk-gold/30"
                         >
                             <ShoppingBag size={24} strokeWidth={1.5} />
-                            {cart.length > 0 && (
+                            {cart.items.length > 0 && (
                                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-souk-ruby text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
-                                    {cart.length}
+                                    {cart.items.length}
                                 </span>
                             )}
                             <div className="absolute -bottom-10 right-0 glass-card px-3 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-[10px] font-bold tracking-widest text-souk-midnight">PANIER LUXE</div>
@@ -259,7 +312,17 @@ const Chat = () => {
                         </div>
 
                         <div className="flex-grow overflow-y-auto p-8 space-y-6 no-scrollbar">
-                            {cart.length === 0 ? (
+                            {cart.status && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-souk-midnight text-souk-gold rounded-2xl border border-souk-gold/30 text-center font-black tracking-widest text-xs shadow-luxury-btn mb-4"
+                                >
+                                    {cart.status}
+                                </motion.div>
+                            )}
+
+                            {cart.items.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center space-y-8 animate-in fade-in zoom-in duration-1000">
                                     <div className="w-32 h-32 rounded-[2.5rem] bg-souk-cream border-2 border-dashed border-souk-gold/30 flex items-center justify-center text-souk-gold/40">
                                         <ShoppingBag size={48} strokeWidth={1} />
@@ -271,7 +334,7 @@ const Chat = () => {
                                 </div>
                             ) : (
                                 <AnimatePresence mode="popLayout">
-                                    {cart.map((item, index) => (
+                                    {cart.items.map((item, index) => (
                                         <motion.div
                                             key={`${item.id}-${index}`}
                                             layout
@@ -288,10 +351,14 @@ const Chat = () => {
                                                     <div className="flex justify-between items-start">
                                                         <div>
                                                             <h4 className="title-luxury text-xl font-black group-hover:text-souk-gold transition-colors">{item.name}</h4>
-                                                            <p className="text-[9px] uppercase tracking-[0.2em] text-souk-midnight/40 mt-1">Artisanat de Prestige</p>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                                                <span className="text-[9px] uppercase tracking-[0.2em] text-souk-midnight/40">Artisanat de Prestige</span>
+                                                                <span className="w-1.5 h-1.5 bg-souk-gold rounded-full"></span>
+                                                                <span className="text-[9px] font-black text-souk-gold uppercase">{item.statut || "Sélectionné"}</span>
+                                                            </div>
                                                         </div>
                                                         <button
-                                                            onClick={() => setCart(prev => prev.filter((_, i) => i !== index))}
+                                                            onClick={() => setCart(prev => ({ ...prev, items: prev.items.filter((_, i) => i !== index) }))}
                                                             className="text-souk-ruby/20 hover:text-souk-ruby transition-colors"
                                                         >
                                                             <X size={16} />
@@ -309,14 +376,14 @@ const Chat = () => {
                             )}
                         </div>
 
-                        {cart.length > 0 && (
+                        {cart.items.length > 0 && (
                             <div className="p-10 border-t border-souk-gold/10 bg-souk-midnight text-white rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,43,54,0.3)]">
                                 <div className="flex justify-between items-center mb-10">
                                     <div>
                                         <span className="text-[10px] font-black tracking-[0.4em] text-souk-gold uppercase">Total Privilège</span>
                                         <div className="flex items-baseline gap-2 mt-2">
                                             <span className="text-4xl font-serif font-black text-souk-gold">
-                                                {cart.reduce((acc, curr) => acc + parseInt(curr.price), 0)}
+                                                {cart.items.reduce((acc, curr) => acc + parseInt(curr.price), 0) || "---"}
                                             </span>
                                             <span className="text-xl font-serif text-souk-gold/60">DH</span>
                                         </div>
