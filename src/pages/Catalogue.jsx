@@ -97,29 +97,55 @@ const Catalogue = () => {
                         <p className="text-souk-midnight font-black tracking-[0.5em] uppercase text-[10px] animate-pulse italic">Hassan sélectionne vos trésors d'exception...</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-20">
-                        <AnimatePresence>
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0 },
+                            show: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.1
+                                }
+                            }
+                        }}
+                        initial="hidden"
+                        animate="show"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-20"
+                    >
+                        <AnimatePresence mode="popLayout">
                             {filteredProducts.map(product => (
                                 <motion.div
                                     key={product.id}
                                     layout
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 30 },
+                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
                                     exit={{ opacity: 0, scale: 0.95 }}
-                                    className="glass-card rounded-[2.5rem] overflow-hidden group hover:shadow-luxury-deep transition-all duration-700 border-none relative bg-white/80"
+                                    className="glass-card rounded-[2.5rem] overflow-hidden group hover:shadow-[0_20px_50px_rgba(212,175,55,0.2)] transition-all duration-700 border-none relative bg-white/80"
                                 >
                                     <div className="relative h-96 overflow-hidden">
                                         <img
                                             src={product.image}
                                             alt={product.name}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out opacity-90"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out opacity-90"
                                         />
                                         <div className="absolute top-8 left-8">
                                             <span className="bg-souk-midnight/90 backdrop-blur-xl text-souk-gold px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] border border-souk-gold/30 shadow-lg">
                                                 {product.category}
                                             </span>
                                         </div>
-                                        {product.stock < 10 && (
+
+                                        {/* Stock Badge */}
+                                        <div className="absolute top-8 right-8">
+                                            <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] shadow-lg border backdrop-blur-md transition-colors duration-500 ${product.stock > 0
+                                                    ? 'bg-emerald-500/80 text-white border-emerald-400/30'
+                                                    : 'bg-rose-500/80 text-white border-rose-400/30'
+                                                }`}>
+                                                {product.stock > 0 ? '● En Stock' : '○ Rupture'}
+                                            </span>
+                                        </div>
+
+                                        {product.stock > 0 && product.stock < 10 && (
                                             <div className="absolute bottom-8 left-8 text-center w-full pr-16">
                                                 <span className="bg-souk-ruby/90 backdrop-blur-xl text-white px-6 py-2 rounded-full text-[9px] font-black tracking-[0.4em] shadow-2xl uppercase border border-white/20">
                                                     ÉDITION LIMITÉE
@@ -143,7 +169,7 @@ const Catalogue = () => {
 
                                         <button
                                             onClick={() => navigate('/chat', { state: { product } })}
-                                            className="btn-luxury w-full group/btn relative overflow-hidden py-6 !bg-souk-midnight !text-souk-gold border border-souk-gold/30"
+                                            className="btn-luxury w-full group/btn relative overflow-hidden py-6 !bg-souk-midnight !text-souk-gold border border-souk-gold/30 transform transition-all duration-300 active:scale-95"
                                         >
                                             <span className="relative z-10 flex items-center justify-center gap-4 tracking-[0.4em] text-[10px] font-black uppercase">
                                                 <MessageSquare size={18} strokeWidth={2} />
@@ -151,14 +177,14 @@ const Catalogue = () => {
                                             </span>
                                             <div className="absolute inset-0 bg-souk-gold translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500"></div>
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none">
-                                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-souk-midnight z-20">Contacter Hassan</span>
+                                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-souk-midnight z-20 font-bold">Contacter Hassan</span>
                                             </div>
                                         </button>
                                     </div>
                                 </motion.div>
                             ))}
                         </AnimatePresence>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </div>

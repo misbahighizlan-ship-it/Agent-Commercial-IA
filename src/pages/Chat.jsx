@@ -6,7 +6,12 @@ import { useLocation, Link } from 'react-router-dom';
 const Chat = () => {
     const location = useLocation();
     const [messages, setMessages] = useState([
-        { id: '1', text: "Marhaba! 🌟 Je suis Hassan, votre concierge du Souk Digital. C'est un honneur de vous accompagner dans votre quête d'excellence. Comment puis-je vous servir aujourd'hui ?", sender: 'bot' }
+        {
+            id: '1',
+            text: "Marhaba! 🌟 Je suis Hassan, votre concierge du Souk Digital. C'est un honneur de vous accompagner dans votre quête d'excellence. Comment puis-je vous servir aujourd'hui ?",
+            sender: 'bot',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +75,8 @@ const Chat = () => {
         const messageText = customText || input;
         if (!messageText.trim()) return;
 
-        const userMessage = { id: Date.now().toString(), text: messageText, sender: 'user' };
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const userMessage = { id: Date.now().toString(), text: messageText, sender: 'user', timestamp };
         setMessages(prev => [...prev, userMessage]);
         if (!customText) setInput('');
         setIsLoading(true);
@@ -80,7 +86,8 @@ const Chat = () => {
         setMessages(prev => [...prev, {
             id: (Date.now() + 1).toString(),
             text: botReply,
-            sender: 'bot'
+            sender: 'bot',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);
 
         setIsLoading(false);
@@ -154,10 +161,10 @@ const Chat = () => {
                                         ? 'bg-souk-midnight text-white rounded-br-none border-l-4 border-souk-gold'
                                         : 'glass-card text-souk-midnight rounded-bl-none border-r-4 border-souk-gold'
                                         }`}>
-                                        <p className="text-sm md:text-base leading-relaxed font-medium italic opacity-90">{msg.text}</p>
-                                        <div className={`absolute bottom-0 text-[8px] font-black tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity py-2 ${msg.sender === 'user' ? 'right-0 text-souk-gold' : 'left-0 text-souk-midnight/30'
+                                        <p className="text-sm md:text-base leading-relaxed font-medium italic opacity-90 mb-2">{msg.text}</p>
+                                        <div className={`text-[8px] font-black tracking-[0.2em] py-1 border-t border-souk-gold/10 ${msg.sender === 'user' ? 'text-souk-gold/60' : 'text-souk-midnight/30'
                                             }`}>
-                                            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            {msg.timestamp}
                                         </div>
                                     </div>
                                 </div>
@@ -170,13 +177,25 @@ const Chat = () => {
                                 <div className="w-10 h-10 rounded-xl bg-souk-midnight border-2 border-souk-gold flex items-center justify-center text-souk-gold animate-pulse">
                                     <Bot size={20} strokeWidth={1.5} />
                                 </div>
-                                <div className="glass-card px-6 py-4 rounded-full flex items-center gap-4 border-r-4 border-souk-gold shadow-lg">
-                                    <div className="flex gap-1">
-                                        <div className="w-1.5 h-1.5 bg-souk-gold rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                        <div className="w-1.5 h-1.5 bg-souk-gold rounded-full animate-bounce" style={{ animationDelay: '200ms' }}></div>
-                                        <div className="w-1.5 h-1.5 bg-souk-gold rounded-full animate-bounce" style={{ animationDelay: '400ms' }}></div>
+                                <div className="glass-card px-6 py-4 rounded-full flex items-center gap-5 border-r-4 border-souk-gold shadow-lg">
+                                    <div className="flex gap-1.5 min-w-[32px]">
+                                        <motion.div
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                                            className="w-1.5 h-1.5 bg-souk-gold rounded-full"
+                                        ></motion.div>
+                                        <motion.div
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                                            className="w-1.5 h-1.5 bg-souk-gold rounded-full"
+                                        ></motion.div>
+                                        <motion.div
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                                            className="w-1.5 h-1.5 bg-souk-gold rounded-full"
+                                        ></motion.div>
                                     </div>
-                                    <span className="text-[10px] font-black tracking-[0.3em] text-souk-gold uppercase">Hassan peaufine sa réponse</span>
+                                    <span className="text-[10px] font-black tracking-[0.3em] text-souk-gold uppercase italic">Hassan réfléchit...</span>
                                 </div>
                             </div>
                         </motion.div>
@@ -222,18 +241,20 @@ const Chat = () => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: '100%', opacity: 0 }}
                         transition={{ type: 'spring', damping: 30, stiffness: 200, duration: 0.8 }}
-                        className="fixed inset-y-0 right-0 w-full lg:w-[28rem] glass-card !bg-white/90 backdrop-blur-3xl z-50 flex flex-col border-y-0 border-r-0 border-l border-souk-gold/20 shadow-[-20px_0_50px_rgba(0,43,54,0.1)] rounded-none"
+                        className="fixed inset-y-0 right-0 w-full lg:w-[28rem] glass-card !bg-white/95 backdrop-blur-3xl z-50 flex flex-col border-y-0 border-r-0 border-l border-souk-gold/20 shadow-[-20px_0_50px_rgba(0,43,54,0.1)] rounded-none"
                     >
-                        <div className="p-10 border-b border-souk-gold/10 flex items-center justify-between">
+                        <div className="p-10 border-b border-souk-gold/10 flex items-center justify-between bg-souk-cream/30">
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-3 text-souk-midnight">
-                                    <ShoppingBag size={28} strokeWidth={1.5} className="text-souk-gold" />
+                                    <div className="w-12 h-12 bg-souk-midnight rounded-2xl flex items-center justify-center shadow-lg rotate-3">
+                                        <ShoppingBag size={24} strokeWidth={1.5} className="text-souk-gold" />
+                                    </div>
                                     <h3 className="title-luxury text-3xl font-black italic">Votre <span className="text-souk-gold">Écrin</span></h3>
                                 </div>
                                 <span className="text-[10px] font-black tracking-[0.3em] text-souk-gold mt-2 uppercase">Sélection Privée</span>
                             </div>
-                            <button onClick={() => setShowCart(false)} className="w-12 h-12 rounded-2xl bg-souk-cream hover:bg-souk-gold hover:text-white transition-all flex items-center justify-center text-souk-gold border border-souk-gold/20 shadow-sm">
-                                <X size={24} strokeWidth={1.5} />
+                            <button onClick={() => setShowCart(false)} className="w-12 h-12 rounded-2xl bg-souk-cream hover:bg-souk-midnight hover:text-souk-gold transition-all flex items-center justify-center text-souk-midnight border border-souk-gold/20 shadow-sm group">
+                                <X size={24} strokeWidth={1.5} className="group-hover:rotate-90 transition-transform duration-500" />
                             </button>
                         </div>
 
@@ -249,25 +270,42 @@ const Chat = () => {
                                     </div>
                                 </div>
                             ) : (
-                                cart.map((item, index) => (
-                                    <div key={index} className="glass-card p-6 rounded-[2rem] border-none group hover:shadow-2xl transition-all duration-500 relative bg-white shadow-lg overflow-hidden">
-                                        <div className="flex gap-6 relative z-10">
-                                            <div className="w-24 h-24 rounded-2xl bg-souk-midnight overflow-hidden flex-shrink-0 border-2 border-souk-gold/20 transform group-hover:scale-105 transition-transform duration-700">
-                                                <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-90" />
-                                            </div>
-                                            <div className="flex-grow flex flex-col justify-between py-1">
-                                                <div>
-                                                    <h4 className="title-luxury text-xl font-black group-hover:text-souk-gold transition-colors">{item.name}</h4>
-                                                    <p className="text-[9px] uppercase tracking-[0.2em] text-souk-midnight/40 mt-1">Artisanat de Prestige</p>
+                                <AnimatePresence mode="popLayout">
+                                    {cart.map((item, index) => (
+                                        <motion.div
+                                            key={`${item.id}-${index}`}
+                                            layout
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, scale: 0.9 }}
+                                            className="glass-card p-6 rounded-[2rem] border-none group hover:shadow-2xl transition-all duration-500 relative bg-white shadow-lg overflow-hidden"
+                                        >
+                                            <div className="flex gap-6 relative z-10">
+                                                <div className="w-24 h-24 rounded-2xl bg-souk-midnight overflow-hidden flex-shrink-0 border-2 border-souk-gold/20 transform group-hover:scale-105 transition-transform duration-700">
+                                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-90" />
                                                 </div>
-                                                <div className="flex justify-between items-end">
-                                                    <p className="text-2xl font-serif font-black text-souk-gold">{item.price}</p>
+                                                <div className="flex-grow flex flex-col justify-between py-1">
+                                                    <div className="flex justify-between items-start">
+                                                        <div>
+                                                            <h4 className="title-luxury text-xl font-black group-hover:text-souk-gold transition-colors">{item.name}</h4>
+                                                            <p className="text-[9px] uppercase tracking-[0.2em] text-souk-midnight/40 mt-1">Artisanat de Prestige</p>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => setCart(prev => prev.filter((_, i) => i !== index))}
+                                                            className="text-souk-ruby/20 hover:text-souk-ruby transition-colors"
+                                                        >
+                                                            <X size={16} />
+                                                        </button>
+                                                    </div>
+                                                    <div className="flex justify-between items-end">
+                                                        <p className="text-2xl font-serif font-black text-souk-gold underline decoration-souk-ruby/10">{item.price}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="absolute top-0 right-0 w-24 h-24 bg-souk-gold/5 -rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:translate-x-8 group-hover:-translate-y-8"></div>
-                                    </div>
-                                ))
+                                            <div className="absolute top-0 right-0 w-24 h-24 bg-souk-gold/5 -rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:translate-x-8 group-hover:-translate-y-8"></div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
                             )}
                         </div>
 
@@ -284,15 +322,16 @@ const Chat = () => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-[8px] tracking-widest text-white/40 uppercase">TVA Incluse</p>
-                                        <p className="text-[8px] tracking-widest text-white/40 uppercase mt-1">Expédition Assurée</p>
+                                        <p className="text-[8px] tracking-widest text-white/40 uppercase font-black">TVA Incluse</p>
+                                        <p className="text-[8px] tracking-widest text-white/40 uppercase mt-1 font-black">Expédition Assurée</p>
                                     </div>
                                 </div>
-                                <button className="btn-luxury w-full py-6 group overflow-hidden !bg-souk-gold !text-souk-midnight hover:!bg-white">
+                                <button className="btn-luxury w-full py-6 group overflow-hidden !bg-souk-gold !text-souk-midnight hover:!bg-white border-none shadow-[0_10px_30px_rgba(212,175,55,0.3)]">
                                     <span className="relative z-10 flex items-center justify-center gap-4 tracking-[0.3em] font-black text-xs">
-                                        <Sparkles size={20} />
+                                        <Sparkles size={20} className="animate-pulse" />
                                         COMMANDER L'EXCELLENCE
                                     </span>
+                                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                                 </button>
                                 <p className="text-center mt-6 text-[8px] font-black tracking-[0.5em] text-souk-gold/40 uppercase">Paiement Sécurisé & Discrétion Absolue</p>
                             </div>

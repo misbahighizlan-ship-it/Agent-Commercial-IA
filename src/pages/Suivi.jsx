@@ -24,17 +24,17 @@ const Suivi = () => {
                 } else {
                     setOrderData({
                         id: orderId,
-                        status: 'En traitement Excellence',
-                        date: '21 Février 2026',
+                        status: 'Traitement par Hassan',
+                        date: '22 Février 2026',
                         items: [
                             { name: 'Tajine Royal en Terre Cuite', qty: 1, origin: 'Fès' },
                             { name: 'Babouches en Cuir de Prestige', qty: 2, origin: 'Marrakech' }
                         ],
                         history: [
-                            { status: 'Sceau de Confirmation', date: '20 Fév, 14:30', completed: true, detail: 'Votre commande a été authentifiée par nos artisans.' },
-                            { status: 'Traitement Excellence', date: '21 Fév, 09:15', completed: true, detail: 'Préparation méticuleuse et emballage de protection premium.' },
-                            { status: 'Convoi en Route', date: '--', completed: false, detail: 'Votre colis s\'apprête à traverser les royaumes.' },
-                            { status: 'Remise Privée', date: '--', completed: false, detail: 'Livraison à votre demeure par nos coursiers dévoués.' }
+                            { status: 'Confirmée', icon: '✅', date: '21 Fév, 14:30', completed: true, detail: 'Votre commande a été authentifiée par nos artisans.' },
+                            { status: 'Traitement', icon: '⏳', date: '22 Fév, 09:15', completed: true, detail: 'Préparation méticuleuse et emballage de protection premium.' },
+                            { status: 'Expédiée', icon: '📦', date: '--', completed: false, detail: 'Votre colis s\'apprête à traverser les royaumes.' },
+                            { status: 'Livrée', icon: '🏠', date: '--', completed: false, detail: 'Livraison à votre demeure par nos coursiers dévoués.' }
                         ]
                     });
                 }
@@ -49,10 +49,10 @@ const Suivi = () => {
     const getStatusIcon = (status, active) => {
         const color = active ? 'text-souk-gold' : 'text-souk-midnight/20';
         switch (status) {
-            case 'Sceau de Confirmation': return <CheckCircle size={28} className={color} />;
-            case 'Traitement Excellence': return <Clock size={28} className={color} />;
-            case 'Convoi en Route': return <Truck size={28} className={color} />;
-            case 'Remise Privée': return <Package size={28} className={color} />;
+            case 'Confirmée': return <CheckCircle size={28} className={color} />;
+            case 'Traitement': return <Clock size={28} className={color} />;
+            case 'Expédiée': return <Truck size={28} className={color} />;
+            case 'Livrée': return <Package size={28} className={color} />;
             default: return null;
         }
     };
@@ -183,31 +183,66 @@ const Suivi = () => {
                                 {/* Premium Vertical Timeline */}
                                 <div className="space-y-12 relative px-4">
                                     <div className="absolute left-[2.35rem] top-4 bottom-4 w-0.5 bg-souk-gold/10 border-l border-dashed border-souk-gold/40 -z-10"></div>
-                                    {orderData.history.map((step, idx) => (
-                                        <div key={idx} className="flex gap-10 items-start group">
-                                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 z-10 transition-all duration-500 group-hover:scale-110 shadow-lg ${step.completed
-                                                ? 'bg-souk-midnight border-2 border-souk-gold text-souk-gold'
-                                                : 'bg-souk-cream border-2 border-souk-gold/20 text-souk-midnight/20'
-                                                }`}>
-                                                {getStatusIcon(step.status, step.completed)}
-                                            </div>
-                                            <div className={`flex-grow border-b border-souk-gold/5 pb-8 ${idx === orderData.history.length - 1 ? 'border-none' : ''}`}>
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <h3 className={`text-2xl title-luxury font-black tracking-tight transition-colors ${step.completed ? 'text-souk-midnight group-hover:text-souk-gold' : 'text-souk-midnight/30'}`}>
-                                                        {step.status}
-                                                    </h3>
+                                    <motion.div
+                                        initial="hidden"
+                                        animate="show"
+                                        variants={{
+                                            hidden: { opacity: 0 },
+                                            show: {
+                                                opacity: 1,
+                                                transition: {
+                                                    staggerChildren: 0.2
+                                                }
+                                            }
+                                        }}
+                                        className="space-y-12"
+                                    >
+                                        {orderData.history.map((step, idx) => (
+                                            <motion.div
+                                                key={idx}
+                                                variants={{
+                                                    hidden: { opacity: 0, x: -20 },
+                                                    show: { opacity: 1, x: 0 }
+                                                }}
+                                                className="flex gap-10 items-start group"
+                                            >
+                                                <div className="relative">
+                                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 z-10 transition-all duration-500 group-hover:scale-110 shadow-lg ${step.completed
+                                                        ? 'bg-souk-midnight border-2 border-souk-gold text-souk-gold'
+                                                        : 'bg-souk-cream border-2 border-souk-gold/20 text-souk-midnight/20'
+                                                        }`}>
+                                                        {getStatusIcon(step.status, step.completed)}
+                                                    </div>
                                                     {step.completed && (
-                                                        <span className="text-[10px] font-black text-souk-gold bg-souk-gold/10 px-3 py-1 rounded-full uppercase tracking-widest">
-                                                            {step.date}
-                                                        </span>
+                                                        <motion.div
+                                                            initial={{ scale: 0 }}
+                                                            animate={{ scale: 1 }}
+                                                            className="absolute -top-2 -right-2 w-7 h-7 bg-souk-gold text-souk-midnight rounded-full flex items-center justify-center text-xs shadow-lg border-2 border-white z-20"
+                                                        >
+                                                            {step.icon}
+                                                        </motion.div>
                                                     )}
                                                 </div>
-                                                <p className={`text-sm italic font-medium max-w-lg leading-relaxed ${step.completed ? 'text-souk-midnight/60' : 'text-souk-midnight/20'}`}>
-                                                    {step.detail}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                                <div className={`flex-grow border-b border-souk-gold/5 pb-8 ${idx === orderData.history.length - 1 ? 'border-none' : ''}`}>
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <div className="flex items-center gap-3">
+                                                            <h3 className={`text-2xl title-luxury font-black tracking-tight transition-colors ${step.completed ? 'text-souk-midnight group-hover:text-souk-gold' : 'text-souk-midnight/30'}`}>
+                                                                {step.status}
+                                                            </h3>
+                                                        </div>
+                                                        {step.completed && (
+                                                            <span className="text-[10px] font-black text-souk-gold bg-souk-gold/10 px-3 py-1 rounded-full uppercase tracking-widest">
+                                                                {step.date}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <p className={`text-sm italic font-medium max-w-lg leading-relaxed ${step.completed ? 'text-souk-midnight/60' : 'text-souk-midnight/20'}`}>
+                                                        {step.detail}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
                                 </div>
 
                                 {/* Tracking Details Card */}

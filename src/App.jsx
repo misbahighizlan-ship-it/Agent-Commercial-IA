@@ -1,30 +1,87 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Home from './pages/Home.jsx';
 import Catalogue from './pages/Catalogue.jsx';
 import Chat from './pages/Chat.jsx';
 import Suivi from './pages/Suivi.jsx';
+import LoadingScreen from './components/LoadingScreen.jsx';
+import Footer from './components/Footer.jsx';
+import PageTransition from './components/PageTransition.jsx';
 import { ShoppingBag, MessageSquare, Home as HomeIcon, Package } from 'lucide-react';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Longer loading for first impression
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Router>
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen key="loader" />}
+      </AnimatePresence>
+
       <div className="flex flex-col min-h-screen">
         <Navbar />
 
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalogue" element={<Catalogue />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/suivi" element={<Suivi />} />
-          </Routes>
+          <AnimatedRoutes />
         </main>
+
+        <Footer />
       </div>
     </Router>
   );
 }
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <PageTransition>
+              <Home />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/catalogue"
+          element={
+            <PageTransition>
+              <Catalogue />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <PageTransition>
+              <Chat />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/suivi"
+          element={
+            <PageTransition>
+              <Suivi />
+            </PageTransition>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 const Navbar = () => {
   const location = useLocation();
