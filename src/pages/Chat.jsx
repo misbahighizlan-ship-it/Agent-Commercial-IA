@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, User, Bot, ShoppingBag, X, Loader2, Sparkles, MessageCircle, Home as HomeIcon } from 'lucide-react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 const Chat = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const hasSentAutoMessage = useRef(false);
+    const isProcessing = useRef(false);
+
     const [messages, setMessages] = useState([
         {
             id: '1',
@@ -81,16 +85,23 @@ const Chat = () => {
     }, [messages, isLoading]);
 
     useEffect(() => {
-        if (location.state?.product) {
+        if (location.state?.product && !hasSentAutoMessage.current) {
+            hasSentAutoMessage.current = true;
             const p = location.state.product;
-            handleSendMessage(`Je suis fasciné par ce trésor : ${p.name}`);
-            setCart({
-                items: [{
-                    ...p,
-                    statut: "Sélectionné"
-                }],
-                status: "En attente de discussion"
-            });
+
+            // Wait a tiny bit to ensure initial render is stable
+            setTimeout(() => {
+                handleSendMessage(`Je suis fasciné par ce trésor : ${p.name}`);
+                setCart({
+                    items: [{
+                        ...p,
+                        statut: "Sélectionné"
+                    }],
+                    status: "En attente de discussion"
+                });
+                // Clear state to prevent re-trigger on navigation back/forward
+                window.history.replaceState({}, document.title);
+            }, 100);
         }
     }, [location.state]);
 
@@ -124,11 +135,15 @@ const Chat = () => {
     };
 
     const handleSendMessage = async (customText = null) => {
+        if (isProcessing.current) return;
+
         const messageText = customText || input;
         if (!messageText.trim()) return;
 
+        isProcessing.current = true;
         const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const userMessage = { id: Date.now().toString(), text: messageText, sender: 'user', timestamp };
+
         setMessages(prev => [...prev, userMessage]);
         if (!customText) setInput('');
         setIsLoading(true);
@@ -144,6 +159,7 @@ const Chat = () => {
 
         setIsLoading(false);
         updateCart(botReply, messageText);
+        isProcessing.current = false;
     };
 
     return (
